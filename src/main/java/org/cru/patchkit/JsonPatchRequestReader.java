@@ -58,6 +58,6 @@ public class JsonPatchRequestReader implements MessageBodyReader<JsonPatchReques
 
     // public for testing
     public JsonPatchRequest buildJsonPatchRequest(String contentAsString) {
-        return new JsonPatchRequest(Logger.getLogger(JsonPatchRequest.class.getName()), mapper, contentAsString);
+        return new JsonPatchRequest(Logger.getLogger(JsonPatchRequest.class.getName()), new Jackson2JsonAdapter(mapper), contentAsString);
     }
 }

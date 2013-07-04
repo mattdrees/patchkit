@@ -21,21 +21,21 @@ public class JsonPatchRequest {
 
     final Logger log;
 
-    final ObjectMapper mapper;
+    final JsonAdapter adapter;
 
     final JsonPatch jsonPatch;
 
-    public JsonPatchRequest(Logger log, ObjectMapper mapper, String jsonPatchText) {
+    public JsonPatchRequest(Logger log, JsonAdapter adapter, String jsonPatchText) {
+        this.adapter = adapter;
         Preconditions.checkNotNull(jsonPatchText);
         this.log = log;
-        this.mapper = mapper;
         this.jsonPatch = parseAndBuildPatch(jsonPatchText);
     }
 
     public <T> T apply(T originalEntity) {
         Preconditions.checkNotNull(originalEntity);
 
-        JsonNode entityAsJson = mapper.valueToTree(originalEntity);
+        JsonNode entityAsJson = adapter.entityToTree(originalEntity);
         JsonNode updatedEntityAsJson = applyPatch(jsonPatch, entityAsJson);
 
         // This is safe enough
@@ -108,8 +108,8 @@ public class JsonPatchRequest {
 
     private String nicelyPrintDocumentForErrorMessage(JsonNode entityAsJson) {
         try {
-            return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(entityAsJson);
-        } catch (JsonProcessingException e1) {
+            return adapter.printForDebug(entityAsJson);
+        } catch (JsonAdapterException e1) {
             // this generally shouldn't happen, and we don't want to mask the original problem to the user, so
             // log and swallow
             log.log(Level.SEVERE, "unable to pretty-print entity", e1);
@@ -120,8 +120,8 @@ public class JsonPatchRequest {
     private <T> T  convertUpdatedJsonBackToEntity(Class<T> originalEntityClass, JsonNode updatedEntityAsJson) {
         T updatedEntity;
         try {
-            updatedEntity = mapper.treeToValue(updatedEntityAsJson, originalEntityClass);
-        } catch (JsonProcessingException e) {
+            updatedEntity = adapter.treeToEntity(updatedEntityAsJson, originalEntityClass);
+        } catch (JsonAdapterException e) {
             log.fine("cannot convert updated json back into entity :\n" + updatedEntityAsJson);
             throw new WebApplicationException(
                 e,
