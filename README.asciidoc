@@ -1,0 +1,7 @@
+
+Patchkit
+========
+
+Patchkit is a simple library that makes it really easy to handle JSON-Patch requests in a JAX-RS application.
+
+Internally, it uses Jackson 2 and Francis Galiegue's link:https://github.com/fge/json-patch[json-patch] library.
