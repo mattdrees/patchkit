@@ -33,6 +33,11 @@
         <url>git@github.com:mattdrees/pathkit</url>
     </scm>
 
+    <ciManagement>
+        <system>jenkins</system>
+        <url>https://buildhive.cloudbees.com/job/mattdrees/job/patchkit/</url>
+    </ciManagement>
+
     <developers>
         <developer>
             <name>Matt Drees</name>
@@ -42,17 +47,15 @@
         </developer>
     </developers>
 
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <version.jboss.bom>1.0.6.Final</version.jboss.bom>
 
-        <!-- other plugin versions -->
         <version.compiler.plugin>2.3.1</version.compiler.plugin>
         <version.surefire.plugin>2.10</version.surefire.plugin>
-        <version.war.plugin>2.1.1</version.war.plugin>
 
-        <!-- maven-compiler-plugin -->
         <maven.compiler.target>1.6</maven.compiler.target>
         <maven.compiler.source>1.6</maven.compiler.source>
     </properties>
