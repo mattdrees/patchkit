@@ -1,6 +1,7 @@
-
 Patchkit
 ========
+
+image:https://buildhive.cloudbees.com/job/mattdrees/job/patchkit/badge/icon["Build Status", link="https://buildhive.cloudbees.com/job/mattdrees/job/patchkit/"]
 
 Patchkit is a simple library that makes it really easy to handle JSON-Patch requests in a JAX-RS application.
 
